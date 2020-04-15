@@ -6,16 +6,12 @@ CXX=g++
 CXXFLAGS = -Wall
 EXE = DemoUnionFind
 
-all: demo.o InfiniteInt.o
-	$(CXX) $(CXXFLAGS) -o $(EXE) demo.o InfiniteInt.o
+all: demo.o
+	$(CXX) $(CXXFLAGS) -o $(EXE) demo.o
 
-InfiniteInt.o: InfiniteInt.cpp InfiniteInt.h
-	$(CXX) $(CXXFLAGS) -c InfiniteInt.cpp
-
-demo.o: demo.cpp InfiniteInt.h
-	$(CXX) $(CXXFLAGS) -c demo.cpp
+demo.o:
+	$(CXX) $(CXXFLAGS) -c demo.cpp Graph.h UnionFind.h SetUF.h
 
 clean:
 	-del demo.o
-	-del InfiniteInt.o
 	-del DemoUnionFind.exe

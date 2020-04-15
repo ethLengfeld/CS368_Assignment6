@@ -24,8 +24,14 @@ public:
 		edges.push_back(e);
 	}
 	;
+
+	/*
+	*
+	*  
+	*/
 	bool containsCycle();
 };
+
 
 template<typename T>
 bool Graph<T>::containsCycle() {
