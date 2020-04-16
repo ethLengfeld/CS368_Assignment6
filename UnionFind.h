@@ -19,6 +19,7 @@
 #include <vector>
 #include "SetUF.h"
 
+
 template<typename T>
 class UnionFind {
     
@@ -69,28 +70,46 @@ class UnionFind {
 };
 
 template <typename T>
-SetUF<T>& find(T node) {
-    // std::cout << node;
+SetUF<T>& UnionFind<T>::find(T node) {
+    // std::cout << "finding node" << std::endl; 
+    // std::cout << "node= " << node << std::endl << std::endl;
 
+    int size = sets.size();
+    SetUF<T> foundNode = sets.at(0);
+    
+    for(int i = 0; i < size; i++) {
+        if(node == sets.at(i)) {
+            return sets.at(i);
+        }
+    }
 
-    // return node;
+    return foundNode;
 }
 
 
 template <typename T>
-void unionOp(SetUF<T> &x, SetUF<T> &y) {
+void UnionFind<T>::unionOp(SetUF<T> &x, SetUF<T> &y) {
+    std::cout << "x=" << x << std::endl;
+    std::cout << "y=" << y << std::endl;
+}
 
+template <typename T>
+void UnionFind<T>::unionOp(T x, SetUF<T> &y) {
+    std::cout << "x=" << x << std::endl;
+    std::cout << "y=" << y << std::endl;
 }
 
 
 template <typename T>
-void unionOp(SetUF<T> &x, T y) {
-
+void UnionFind<T>::unionOp(SetUF<T> &x, T y) {
+    std::cout << "x=" << x << std::endl;
+    std::cout << "y=" << y << std::endl;
 }
 
 template <typename T>
-void unionOp(T x, T y) {
-
+void UnionFind<T>::unionOp(T x, T y) {
+    std::cout << "x=" << x << std::endl;
+    std::cout << "y=" << y << std::endl;
 } 
 
 

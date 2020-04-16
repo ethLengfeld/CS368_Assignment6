@@ -10,21 +10,26 @@
 //
 //
 // Online sources:   https://beginnersbook.com/2017/09/friend-class-and-friend-functions/
+//                   CS368-Templates Slides
 //
 ////////////////////////////////////////////////////////////////////////////////
 
 #ifndef _SETUF_H_
 #define _SETUF_H_
 
+// #include "UnionFind.h"
+
+template<typename T> class UnionFind;
+
 /*
  *
  *
  * 
 */ 
-template<typename T>
+template<typename T> 
 class SetUF {
 
-    class UnionFind<T>;
+    friend class UnionFind<T>;
 
     private:
         T value;
