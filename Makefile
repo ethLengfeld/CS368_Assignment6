@@ -9,8 +9,8 @@ EXE = DemoUnionFind
 all: demo.o
 	$(CXX) $(CXXFLAGS) -o $(EXE) demo.o
 
-demo.o:
-	$(CXX) $(CXXFLAGS) -c demo.cpp Graph.h UnionFind.h SetUF.h
+demo.o: demo.cpp Graph.h UnionFind.h SetUF.h
+	$(CXX) $(CXXFLAGS) -c demo.cpp
 
 clean:
 	-del demo.o

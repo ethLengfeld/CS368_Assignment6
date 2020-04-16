@@ -32,17 +32,44 @@ class SetUF {
         SetUF *parent;
 
     public:
+    	/*
+        *
+        */
         SetUF(T v) :
             value(v),
-            rank(0)
+            rank(0),
+            parent(this)
         {}
 
-        SetUF(const SetUF &a);
+        /*
+        *
+        */
+        SetUF(const SetUF &a){
+            value = a.value;
+            rank = 0;
+            this->parent = a.parent;
+        }
 
+        /*
+        *
+        */
         SetUF& operator=(const SetUF &a);
 
+        /*
+        *
+        */
         operator T() const { return value; }
 
 };
+
+template<typename T>
+SetUF<T>& SetUF<T>::operator=(const SetUF &a) {
+    if(this != &a) {
+        delete this->parent;
+        value = a.value;
+        this->parent = a.parent;
+    }
+    return *this;
+}
 
 #endif
