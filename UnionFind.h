@@ -19,9 +19,9 @@
 #include <vector>
 #include "SetUF.h"
 
-template<typename T> 
+template<typename T>
 class UnionFind {
-
+    
     private:
         std::vector<SetUF<T>> sets;
 

@@ -24,7 +24,7 @@
 template<typename T>
 class SetUF {
 
-    friend class UnionFind<T>;
+    class UnionFind<T>;
 
     private:
         T value;
@@ -65,8 +65,8 @@ class SetUF {
 template<typename T>
 SetUF<T>& SetUF<T>::operator=(const SetUF &a) {
     if(this != &a) {
-        delete this->parent;
         value = a.value;
+        rank = 0;
         this->parent = a.parent;
     }
     return *this;
