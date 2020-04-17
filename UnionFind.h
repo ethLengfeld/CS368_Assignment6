@@ -10,7 +10,6 @@
 //
 //
 // Online sources:   https://en.wikipedia.org/wiki/Disjoint-set_data_structure#Path_compression
-//                   f
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -21,17 +20,23 @@
 #include <algorithm>
 #include "SetUF.h"
 
-
+/**
+ * Class that will unionize sets
+ * used in order to find cycles in 
+ * graph.
+**/
 template<typename T>
 class UnionFind {
     
     private:
+        // A container to hold all singletons
         std::vector<SetUF<T>> sets;
 
     public:
 
-        /*
-        *
+        /**
+        * Constructor that will add all singletons to
+        * container set
         */
         UnionFind(const std::vector<T> &singletons) {
             // add singletons to set
@@ -45,28 +50,36 @@ class UnionFind {
             sets = *newSet;
         }
 
-        /*
-        *
+        /**
+        * Find the root the set to which
+        * the argument node belongs to
         */
         SetUF<T>& find(T node);
 
-        /*
-        *
+        /**
+        * Unionize the two sets based on rank.
+        * Using two sets.
         */
         void unionOp(SetUF<T> &x, SetUF<T> &y);
 
-        /*
-        *
+        /**
+        * Unionize the two sets based on rank.
+        * Using generic node and specified set.
+        * Use find() to get set of generic node.
         */
         void unionOp(T x, SetUF<T> &y);
 
-        /*
-        *
+        /**
+        * Unionize the two sets based on rank.
+        * Using specified set and generic node.
+        * Use find() to get set of generic node.
         */
         void unionOp(SetUF<T> &x, T y);
 
-        /*
-        *
+        /**
+        * Unionize the two sets based on rank.
+        * Using two generic nodes.
+        * Use find() to get set of generic node.
         */
         void unionOp(T x, T y);
 };
@@ -76,6 +89,7 @@ template <typename T>
 SetUF<T>& UnionFind<T>::find(T node) {
     SetUF<T> *x;
 
+    // find node in set of singletons
     for(SetUF<T> &currNode : sets) {
         if(currNode.value == node) {
             x = &currNode;
@@ -83,12 +97,13 @@ SetUF<T>& UnionFind<T>::find(T node) {
         }
     }
 
-    // navigate to for loop
+    // find root
     SetUF<T>* root = x;
     while(root->parent != root) {
         root = root->parent;
     }
 
+    // Path compression
     SetUF<T> *parent;
     while(x->parent != root) { 
         parent = x->parent;
@@ -102,7 +117,7 @@ SetUF<T>& UnionFind<T>::find(T node) {
 
 template <typename T>
 void UnionFind<T>::unionOp(SetUF<T> &x, SetUF<T> &y) {
-
+    // union by rank algorithm
     if(x == y) {
         return;
     }

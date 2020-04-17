@@ -4,7 +4,7 @@
 // Other Files: 	 Graph.h / SetUF.h / UnionFind.h / demo.cpp
 // Semester:         CS 368 Spring 2020
 //
-// Author:           Ethan Lengfeld
+// Author:           Ethan Lengfeld (USER-DEFINED TESTS 1 & 2 ONLY)
 // Email:            elengfeld@wisc.edu
 // CS Login:         lengfeld
 //
@@ -69,7 +69,26 @@ int main() {
 		else
 			cout << "The graph does not contain a cycle" << endl;
 
-	/*
-	 * Add your graph examples below
-	 */
+
+//------------------------------USER DEFINED TESTS----------------------------------------------------
+
+	// User-defined Test 1
+	vector<int> vertices1 { 1, 2, 3, 4, 5 };
+	vector<Edge<int>> edges1 { { 1, 2 }, { 1, 3 }, { 2, 3 }, { 2, 5 } };
+	Graph<int> graph1(vertices1, edges1);
+	//Cycle
+	if(graph1.containsCycle())
+		cout << "The graph contains a cycle -> TEST PASSED" << endl;
+
+//----------------------------------------------------------------------------------------------------
+
+	// User-defined Test 2
+	vector<int> vertices2 { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
+	vector<Edge<int>> edges2 { { 1, 2 }, { 1, 3 }, { 2, 4 }, { 2, 5 }, { 3, 6 }, { 3, 7 }, { 4, 8 }, { 4, 9 },
+							   { 5, 10 }, { 5, 11 }, { 6, 12 }, { 6, 13 }, { 7, 14 }, { 7, 15 } };
+	Graph<int> graph2(vertices2, edges2);
+	//No cycle
+	if(!graph2.containsCycle())
+		cout << "The graph does not contain a cycle -> TEST PASSED" << endl;
+
 }
