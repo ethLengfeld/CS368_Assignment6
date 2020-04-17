@@ -27,7 +27,6 @@ class UnionFind {
     
     private:
         std::vector<SetUF<T>> sets;
-        //SetUF<T>& findSetFromValue(T node);
 
     public:
 
@@ -35,7 +34,7 @@ class UnionFind {
         *
         */
         UnionFind(const std::vector<T> &singletons) {
-            // singletons
+            // add singletons to set
             std::vector<SetUF<T>>* newSet = new std::vector<SetUF<T>>;
             int size = singletons.size();
             
@@ -75,151 +74,69 @@ class UnionFind {
 
 template <typename T>
 SetUF<T>& UnionFind<T>::find(T node) {
-    // std::cout << "finding node" << std::endl; 
-    // std::cout << "node= " << node << std::endl;
-
-    SetUF<T> x(node);//= findSetFromValue(node);
+    SetUF<T> *x;
 
     for(SetUF<T> &currNode : sets) {
-        if(currNode.value == x.value) {
-            x = currNode;
-            //return currNode;
+        if(currNode.value == node) {
+            x = &currNode;
             break;
         }
     }
 
-// std::cout << "x = " << x << std::endl;
-
-
-
-// std::cout << "x.parent->value = " << x.parent->value << std::endl;
-    // if(x.parent->value != x.value) {
-    //     SetUF<T> &temp = find(x.parent->value);
-    //     x.parent = &temp;
-    // }
-
-    SetUF<T> root(x);
-// std::cout << "root = " << root << std::endl;
-// std::cout<< "here1"<<std::endl;
-    while(*(root.parent) != root) {
-        // SetUF<T> tt = *(root.parent);
-        // std::cout<< "root.parent= "<< root.parent->value <<std::endl;
-        // std::cout<< "here1.1"<<std::endl;
-        root = *(root.parent);
-        // std::cout<< "here1.2"<<std::endl;
+    // navigate to for loop
+    SetUF<T>* root = x;
+    while(root->parent != root) {
+        root = root->parent;
     }
-// std::cout<< "here2"<<std::endl;
-    SetUF<T> parent(root);
-    // std::cout << "x.parent->value= " << x.parent->value << std::endl;
-    // std::cout << "root.value= " << root.value << std::endl;
 
-    // while(x.parent->value != root.value) {
-       while(*(x.parent) != root) { 
-// std::cout<< "here3"<<std::endl;
-        parent = *(x.parent);
-// std::cout<< "here4"<<std::endl;
-        x.parent = &root;
-// std::cout<< "here5"<<std::endl;
+    SetUF<T> *parent;
+    while(x->parent != root) { 
+        parent = x->parent;
+        x->parent = root;
         x = parent;
-    // std::cout << "LOOP: x.parent->value= " << x.parent->value << std::endl;
-    // std::cout << "LOOP: root.value= " << root.value << std::endl;
     }
 
-    // std::cout << "root after= " << root.value << std::endl << std::endl;
-    SetUF<T> *rootPtr = &root;
-// std::cout<< "here6"<<std::endl;
-    // return *(x.parent);
-    // std::cout << "rootPtr->value=" << rootPtr->value << std::endl;
-// std::cout<< "here7"<<std::endl;
-    return *rootPtr;
+    return *root;
 }
 
 
 template <typename T>
 void UnionFind<T>::unionOp(SetUF<T> &x, SetUF<T> &y) {
-    std::cout << "&x&y"<< std::endl;
 
-    SetUF<T> xRoot = find(x.value);
-    SetUF<T> yRoot = find(y.value);
-
-    if(xRoot == yRoot) {
+    if(x == y) {
         return;
     }
-    SetUF<T> tempRoot(xRoot);
-    if(xRoot.rank < yRoot.rank) {
-        xRoot = yRoot;
-        yRoot = tempRoot;
+    
+    if(x.rank < y.rank) {
+        y.parent = &x;
     }
-    yRoot.parent = &xRoot;
-    if(xRoot.rank == yRoot.rank) {
-        xRoot.rank++;
+    else if (x.rank == y.rank) {
+        x.rank++;
+        y.parent = &x;
+    }
+    else {
+        x.parent = &y;
     }
 }
 
 template <typename T>
 void UnionFind<T>::unionOp(T x, SetUF<T> &y) {
-    std::cout << "x&y"<< std::endl;
-    SetUF<T> xNode(x);
-    SetUF<T> xRoot = find(xNode.value);
-    SetUF<T> yRoot = find(y.value);
-
-    // if(xRoot.value == yRoot.value) {
-    if(xRoot == yRoot) {    
-        return;
-    }
-    SetUF<T> tempRoot(xRoot);
-    if(xRoot.rank < yRoot.rank) {
-        xRoot = yRoot;
-        yRoot = tempRoot;
-    }
-    yRoot.parent = &xRoot;
-    if(xRoot.rank == yRoot.rank) {
-        xRoot.rank++;
-    }
+    SetUF<T> &xNode = find(x);
+    unionOp(xNode, y);
 }
 
 
 template <typename T>
 void UnionFind<T>::unionOp(SetUF<T> &x, T y) {
-    std::cout << "&xy"<< std::endl;
-    SetUF<T> yNode(y);
-    SetUF<T> xRoot = find(x.value);
-    SetUF<T> yRoot = find(yNode.value);
-
-    if(xRoot == yRoot) {
-        return;
-    }
-    SetUF<T> tempRoot(xRoot);
-    if(xRoot.rank < yRoot.rank) {
-        xRoot = yRoot;
-        yRoot = tempRoot;
-    }
-    yRoot.parent = &xRoot;
-    if(xRoot.rank == yRoot.rank) {
-        xRoot.rank++;
-    }
+    SetUF<T> &yNode = find(y);
+    unionOp(x, yNode);
 }
 
 template <typename T>
 void UnionFind<T>::unionOp(T x, T y) {
-    std::cout << "xy"<< std::endl;
-    SetUF<T> xNode(x);
-    SetUF<T> yNode(y);
-    SetUF<T> xRoot = find(xNode.value);
-    SetUF<T> yRoot = find(yNode.value);
-
-    if(xRoot == yRoot) {
-        return;
-    }
-    SetUF<T> tempRoot(xRoot);
-    if(xRoot.rank < yRoot.rank) {
-        xRoot = yRoot;
-        yRoot = tempRoot;
-    }
-    yRoot.parent = &xRoot;
-    if(xRoot.rank == yRoot.rank) {
-        xRoot.rank++;
-    }
+    SetUF<T> &xNode = find(x);
+    SetUF<T> &yNode = find(y);
+    unionOp(xNode, yNode);
 }
 
 #endif
