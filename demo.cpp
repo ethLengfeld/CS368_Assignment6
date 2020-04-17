@@ -23,6 +23,9 @@ class Student {
 		return strm << "student(" << stud.id << ", " << stud.name << ")";
 	}
 	friend bool operator==(const Student &lhs, const Student &rhs) {
+		// TODO
+		// std::cout << "lhs.name = " << lhs.name << std::endl;
+		// std::cout << "rhs.name = " << rhs.name << std::endl;
 		return lhs.id == rhs.id;
 	}
 	friend bool operator!=(const Student &lhs, const Student &rhs) {
