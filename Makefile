@@ -1,5 +1,4 @@
 # Ethan Lengfeld
-# 9074020836
 # Makefile to compile Assignment 6 - Union Find code
 
 CXX=g++
